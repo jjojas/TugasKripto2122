@@ -1,6 +1,4 @@
-from msilib.schema import Error
 import string
-from turtle import pen
 
 AlphabetList = list(string.ascii_lowercase)
 

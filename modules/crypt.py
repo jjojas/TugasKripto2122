@@ -9,7 +9,7 @@ def vigenere_encrypt(plaintext,key):
             newChar = (inChar + inKey) % 26
             cipher +=chr(newChar+65)
         else:
-            pass
+            cipher += plaintext[i]
     return cipher
 
 def vigenere_decrypt(plaintext,key):
@@ -23,7 +23,7 @@ def vigenere_decrypt(plaintext,key):
             newChar = (inChar - inKey) % 26
             cipher +=chr(newChar+65)
         else:
-            pass
+            cipher += plaintext[i]
     return cipher
 
 def extended_vigenere_encrypt(plaintext,key):
@@ -39,7 +39,7 @@ def extended_vigenere_encrypt(plaintext,key):
             # print(f"{inChar} - {newChar}")
             # print(f"{chr(inChar)} - {chr(newChar)}")
         else:
-            pass
+            cipher += plaintext[i]
     return cipher
 
 def extended_vigenere_decrypt(plaintext,key):
@@ -53,11 +53,11 @@ def extended_vigenere_decrypt(plaintext,key):
             newChar = (inChar - inKey) % 256
             cipher +=chr(newChar)
         else:
-            pass
+            cipher += plaintext[i]
     return cipher
 
 if __name__ == "__main__":
-    plaintext = "4ku suka mak@n ayam, d1a suka makan somay!"
+    plaintext = "Aku suka makan ayam, dia suka makan somay!"
     key = "LEMON"
     vigenereCipher = vigenere_encrypt(plaintext,key)
     vigenereDecipher = vigenere_decrypt(vigenereCipher,key)

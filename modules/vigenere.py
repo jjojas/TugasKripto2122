@@ -1,3 +1,10 @@
+# Vigenere Module
+# This module consist of function for Vigenere Algorithm
+#
+# Module Author: Justin Dermawan Ikhsan
+# 18219095
+
+
 def cleanText(text):
     '''
     Clean given text for vigenere cipher
@@ -49,42 +56,6 @@ def vigenereDecrypt(ciphertext,key):
             plain += ciphertext[i]
     return plain
 
-def extendedVigenereEncrypt(plaintext,key):
-    '''
-    Encrypt given plaintext to ciphertext with standard 256 ASCII vigenere
-    INPUT: cleaned plaintext and vigenere key
-    OUTPUT: Vigenere-256 ciphertext
-    '''
-    cipher = ""
-    for i in range(len(plaintext)):
-        if ord(plaintext[i]) >=0 and ord(plaintext[i]) <=255:
-            inChar = ord(plaintext[i])
-            inKey = ord(key[i % len(key)])
-            newChar = (inChar + inKey) % 256
-            # print(f"{plaintext[i]} || {inChar} || {newChar} || {repr(chr(newChar))}")
-            cipher +=chr(newChar)
-        else:
-            cipher += plaintext[i]
-    return cipher
-
-def extendedVigenereDecrypt(plaintext,key):
-    '''
-    Decrypt given ciphertext to plaintext with standard 256 ASCII vigenere
-    INPUT: 256 ASCII Vigenere ciphertext and vigenere key
-    OUTPUT: plaintext
-    '''
-    cipher = ""
-    for i in range(len(plaintext)):
-        if ord(plaintext[i]) >=0 and ord(plaintext[i]) <=255:
-            inChar = ord(plaintext[i])
-            inKey = ord(key[i % len(key)])
-            newChar = (inChar - inKey) % 256
-            cipher +=chr(newChar)
-            # print(f"{repr(plaintext[i])} || {inChar} || {newChar} || {(chr(newChar))}")
-        else:
-            cipher += plaintext[i]
-    return cipher
-
 def splitStringTo5Chars(text):
     '''
     Split given string by 5 characthers
@@ -126,37 +97,9 @@ def saveCipherToTextfile(content,filename):
     INPUT: string
     OUTPUT: splitted string
     '''
-    f = open(f"../cipher/text/{filename}.txt","w+")
+    f = open(f"cipher/text/{filename}.txt","w+")
     f.write(content)
     f.close()
-
-def encryptBinaryFile(filedir,key):
-    '''
-    Encrypt given binary file with 256 Extended ASCII Vigenere Cipher
-    INPUT: file directory and Vigenere key
-    OUTPUT: encrypted file at "../cipher/files/encrypted.(extension)"
-    '''
-    ext = filedir.split("/")[-1].split(".")[-1]
-    f = open(filedir,"rb")
-    s = f.read()
-    nf = extendedVigenereEncrypt(s.decode("ISO-8859-1") ,key)
-    g = open(f"../cipher/files/encrypted.{ext}","wb")
-    g.write(bytes(nf,'ISO-8859-1'))
-    g.close()
-
-def decryptBinaryFile(filedir,key):
-    '''
-    Decrypt given binary file with 256 Extended ASCII Vigenere Cipher
-    INPUT: file directory and Vigenere key
-    OUTPUT: decrypted file at "../cipher/files/decrypted.(extension)"
-    '''
-    ext = filedir.split("/")[-1].split(".")[-1]
-    f = open(filedir,"rb")
-    s = f.read()
-    nf = extendedVigenereDecrypt(s.decode("ISO-8859-1") ,key)
-    g = open(f"../cipher/files/decrypted.{ext}","wb")
-    g.write(bytes(nf,'ISO-8859-1'))
-    g.close()
 
 if __name__ == "__main__":
     plaintext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
@@ -167,11 +110,11 @@ if __name__ == "__main__":
     # vigenereExDecipher = extendedVigenereDecrypt(vigenereExCipher,key)
     # print(f"VC: {splitStringTo5Chars(vigenereCipher)}\nVD: {splitStringTo5Chars(vigenereDecipher)}")
     # print(f"EVC: {repr(vigenereExCipher)}\nDVC: {splitStringTo5Chars(vigenereExDecipher)}")
-    # encryptBinaryFile("../cipher/files/aa.jpg",key)
-    s = encryptTextFile("../cipher/text/test.txt",key)
+    # encryptBinaryFile("cipher/files/aa.jpg",key)
+    s = encryptTextFile("cipher/text/test.txt",key)
     saveCipherToTextfile(s,"encrypted")
-    d = decryptTextFile("../cipher/text/encrypted.txt",key)
+    d = decryptTextFile("cipher/text/encrypted.txt",key)
     saveCipherToTextfile(d,"decrypted")
-    # decryptBinaryFile("../cipher/files/encrypted.jpg")
+    # decryptBinaryFile("cipher/files/encrypted.jpg")
     # decryptBinaryFile("")
     # saveCipherToTextfile(splitStringTo5Chars(vigenereCipher,"Vichip"))

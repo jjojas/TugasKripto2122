@@ -2,6 +2,7 @@ import PyQt5.QtWidgets as qtw
 from PyQt5.QtGui import * 
 
 import interfaces.vigenere as v
+import interfaces.extendedVigenere as ev
 
 class mainWidget(qtw.QWidget):
     def __init__(self, parent):
@@ -16,7 +17,7 @@ class mainWidget(qtw.QWidget):
         self.tabs = qtw.QTabWidget()
         self.tabs.setFont(QFont('Roboto', 14))
         self.tabs.addTab(v.vigenereWidget(self),"Vigenere")
-        self.tabs.addTab(qtw.QWidget(),"Extended Vigenere")
+        self.tabs.addTab(ev.extendedVigenereWidget(self),"Extended Vigenere")
         self.tabs.addTab(qtw.QWidget(),"Playfair")
         self.tabs.addTab(qtw.QWidget(),"Enigma")
         self.layout.addWidget(self.tabs)

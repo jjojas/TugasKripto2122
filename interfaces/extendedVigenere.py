@@ -4,15 +4,20 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMessageBox
 
 import modules.vigenere as vig
+import modules.extendedVigenere as evig
 
-class vigenereWidget(qtw.QWidget):
+cipherCache = ""
+
+class extendedVigenereWidget(qtw.QWidget):
     def __init__(self, parent):
         super(qtw.QWidget, self).__init__(parent)   
         self.initUI()
     
     def initUI(self):
         def encrypt():
-            ctextBox.setText(vig.splitStringTo5Chars(vig.vigenereEncrypt(ptextBox.text(),ktextBox.text())))
+            cipherCache = evig.extendedVigenereEncrypt(ptextBox.text(),ktextBox.text())
+            # splitted = vig.splitStringTo5Chars(rep)
+            ctextBox.setText(cipherCache)
             # options = qtw.QFileDialog.Options()
             # options |= qtw.QFileDialog.DontUseNativeDialog
             # fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
@@ -20,10 +25,13 @@ class vigenereWidget(qtw.QWidget):
             #     print(fileName)
 
         def decrypt():
-            ptextBox.setText(vig.splitStringTo5Chars(vig.vigenereDecrypt(ctextBox.text(),ktextBox.text())))
+            c = evig.extendedVigenereDecrypt(ctextBox.text(),ktextBox.text())
+            rep = repr(c)
+            # splitted = vig.splitStringTo5Chars(rep)
+            ptextBox.setText(rep[:-1][1:])
 
         def save():
-            vig.saveCipherToTextfile(ctextBox.text(),saveLine.text())
+            evig.saveCipherToTextfile(ctextBox.text(),saveLine.text())
             msg = QMessageBox()
             msg.setText("File tersimpan!")
             msg.setInformativeText(f'Cipherteks berhasil disimpan pada direktori cipher/text/{saveLine.text()}.txt')

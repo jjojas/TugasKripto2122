@@ -4,6 +4,7 @@
 # Module Author: Justin Dermawan Ikhsan
 # 18219095
 
+
 def extendedVigenereEncrypt(plaintext,key):
     '''
     Encrypt given plaintext to ciphertext with standard 256 ASCII vigenere
@@ -71,5 +72,11 @@ def decryptBinaryFile(filedir,key):
 if __name__ == "__main__":
     plaintext = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     key = "LEMON"
-    encryptBinaryFile("cipher/files/aa.jpg",key)
-    decryptBinaryFile("cipher/files/encrypted.jpg",key)
+    # c = splitStringTo5Chars(repr(extendedVigenereEncrypt(plaintext,key)))
+    # print(c)
+    # print(splitStringTo5Chars(extendedVigenereDecrypt(c,key)))
+    test= "ALoveA"
+    print(test[:-1])
+    print(test[:-1][1:])
+    # encryptBinaryFile("cipher/files/aa.jpg",key)
+    # decryptBinaryFile("cipher/files/encrypted.jpg",key)

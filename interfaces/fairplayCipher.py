@@ -3,24 +3,20 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMessageBox
 
+import modules.fairplay as f
 import modules.vigenere as vig
 
-class vigenereWidget(qtw.QWidget):
+class playfairWidget(qtw.QWidget):
     def __init__(self, parent):
         super(qtw.QWidget, self).__init__(parent)   
         self.initUI()
     
     def initUI(self):
         def encrypt():
-            ctextBox.setText(vig.splitStringTo5Chars(vig.vigenereEncrypt(ptextBox.text(),ktextBox.text())))
-            # options = qtw.QFileDialog.Options()
-            # options |= qtw.QFileDialog.DontUseNativeDialog
-            # fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
-            # if fileName:
-            #     print(fileName)
+            ctextBox.setText(vig.splitStringTo5Chars(f.textEncrypt(ptextBox.text(),ktextBox.text())).upper())
 
         def decrypt():
-            ptextBox.setText(vig.splitStringTo5Chars(vig.vigenereDecrypt(ctextBox.text(),ktextBox.text())))
+            ptextBox.setText(vig.splitStringTo5Chars(f.textDecrypt(ctextBox.text(),ktextBox.text())).upper())
 
         def encryptTextFile():
             if (len(ktextBox.text()) != 0):
@@ -28,7 +24,11 @@ class vigenereWidget(qtw.QWidget):
                 options |= qtw.QFileDialog.DontUseNativeDialog
                 fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
                 if fileName:
-                    ctextBox.setText(vig.splitStringTo5Chars(vig.encryptTextFile(str(fileName),ktextBox.text())))
+                    f.fileEncrypt(str(fileName),ktextBox.text())
+                    msg = QMessageBox()
+                    msg.setWindowTitle("Enkripsi berhasil!")
+                    msg.setText(f'File anda dapat diakses di "cipher/text/encrypted_{fileName}.txt"')
+                    msg.exec_()
             else:
                 msg = QMessageBox()
                 msg.setText("Cipher key tidak boleh kosong!")
@@ -41,7 +41,11 @@ class vigenereWidget(qtw.QWidget):
                 options |= qtw.QFileDialog.DontUseNativeDialog
                 fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
                 if fileName:
-                    ptextBox.setText(vig.splitStringTo5Chars(vig.decryptTextFile(str(fileName),ktextBox.text())))
+                    f.fileDecrypt(str(fileName),ktextBox.text())
+                    msg = QMessageBox()
+                    msg.setWindowTitle("Dekripsi berhasil!")
+                    msg.setText(f'File anda dapat diakses di "cipher/text/decrypted_{fileName}.txt"')
+                    msg.exec_()
             else:
                 msg = QMessageBox()
                 msg.setText("Cipher key tidak boleh kosong!")
@@ -115,6 +119,3 @@ class vigenereWidget(qtw.QWidget):
         saveBoxLayout.layout().addWidget(saveButton,2,Qt.AlignHCenter)
 
         self.layout.addWidget(saveBoxLayout,2,2)
-
-
-

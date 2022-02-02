@@ -4,7 +4,6 @@
 # Module Author: Justin Dermawan Ikhsan
 # 18219095
 
-
 def cleanText(text):
     '''
     Clean given text for vigenere cipher

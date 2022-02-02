@@ -47,11 +47,11 @@ def encryptBinaryFile(filedir,key):
     INPUT: file directory and Vigenere key
     OUTPUT: encrypted file at "cipher/files/encrypted.(extension)"
     '''
-    ext = filedir.split("/")[-1].split(".")[-1]
+    ext = filedir.split("/")[-1]
     f = open(filedir,"rb")
     s = f.read()
     nf = extendedVigenereEncrypt(s.decode("ISO-8859-1") ,key)
-    g = open(f"cipher/files/encrypted.{ext}","wb")
+    g = open(f"cipher/files/encrypted_{ext}","wb")
     g.write(bytes(nf,'ISO-8859-1'))
     g.close()
 
@@ -61,11 +61,11 @@ def decryptBinaryFile(filedir,key):
     INPUT: file directory and Vigenere key
     OUTPUT: decrypted file at "cipher/files/decrypted.(extension)"
     '''
-    ext = filedir.split("/")[-1].split(".")[-1]
+    ext = filedir.split("/")[-1]
     f = open(filedir,"rb")
     s = f.read()
     nf = extendedVigenereDecrypt(s.decode("ISO-8859-1") ,key)
-    g = open(f"cipher/files/decrypted.{ext}","wb")
+    g = open(f"cipher/files/decrypted_{ext}","wb")
     g.write(bytes(nf,'ISO-8859-1'))
     g.close()
 

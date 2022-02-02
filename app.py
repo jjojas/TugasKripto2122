@@ -4,6 +4,8 @@ from PyQt5.QtGui import *
 import interfaces.vigenere as v
 import interfaces.extendedVigenere as ev
 import interfaces.fairplayCipher as p
+import interfaces.oneTimePad as otp
+
 
 class mainWidget(qtw.QWidget):
     def __init__(self, parent):
@@ -21,6 +23,7 @@ class mainWidget(qtw.QWidget):
         self.tabs.addTab(ev.extendedVigenereWidget(self),"Extended Vigenere")
         self.tabs.addTab(p.playfairWidget(self),"Playfair")
         self.tabs.addTab(qtw.QWidget(),"Enigma")
+        self.tabs.addTab(otp.otpWidget(self),"One-time-pad")
         self.layout.addWidget(self.tabs)
         self.setLayout(self.layout)    
 

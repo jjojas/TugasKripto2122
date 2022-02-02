@@ -1,4 +1,3 @@
-from fileinput import filename
 import PyQt5.QtWidgets as qtw
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import Qt
@@ -48,7 +47,7 @@ class extendedVigenereWidget(qtw.QWidget):
                     try:
                         evig.encryptBinaryFile(fileName,ktextBox.text())
                         msg = QMessageBox()
-                        msg.setText(f"Filemu berhasil dienkripsi di cipher/files/encrypted.{fileName.split('.')[-1]}")
+                        msg.setText(f"Filemu berhasil dienkripsi di cipher/files/encrypted_{fileName.split('/')[-1]}")
                         msg.setWindowTitle("Enkripsi Berhasil")
                         msg.exec_()
                     except Exception as e:
@@ -68,7 +67,7 @@ class extendedVigenereWidget(qtw.QWidget):
                     try:
                         evig.decryptBinaryFile(fileName,ktextBox.text())
                         msg = QMessageBox()
-                        msg.setText(f"Filemu berhasil dienkripsi di cipher/files/decrypted.{fileName.split('.')[-1]}")
+                        msg.setText(f"Filemu berhasil dienkripsi di cipher/files/decrypted_{fileName.split('/')[-1]}")
                         msg.setWindowTitle("Enkripsi Berhasil")
                         msg.exec_()
                     except Exception as e:

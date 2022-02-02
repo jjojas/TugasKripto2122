@@ -1,3 +1,4 @@
+from fileinput import filename
 import PyQt5.QtWidgets as qtw
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import Qt
@@ -38,6 +39,46 @@ class extendedVigenereWidget(qtw.QWidget):
             msg.setWindowTitle("Simpan berhasil")
             msg.exec_()
 
+        def encryptBinaryFile():
+            if (len(ktextBox.text()) != 0):
+                options = qtw.QFileDialog.Options()
+                options |= qtw.QFileDialog.DontUseNativeDialog
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
+                if fileName:
+                    try:
+                        evig.encryptBinaryFile(fileName,ktextBox.text())
+                        msg = QMessageBox()
+                        msg.setText(f"Filemu berhasil dienkripsi di cipher/files/encrypted.{fileName.split('.')[-1]}")
+                        msg.setWindowTitle("Enkripsi Berhasil")
+                        msg.exec_()
+                    except Exception as e:
+                        print(e)
+            else:
+                msg = QMessageBox()
+                msg.setText("Cipher key tidak boleh kosong!")
+                msg.setWindowTitle("Enkripsi gagal")
+                msg.exec_()
+
+        def decryptBinaryFile():
+            if (len(ktextBox.text()) != 0):
+                options = qtw.QFileDialog.Options()
+                options |= qtw.QFileDialog.DontUseNativeDialog
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
+                if fileName:
+                    try:
+                        evig.decryptBinaryFile(fileName,ktextBox.text())
+                        msg = QMessageBox()
+                        msg.setText(f"Filemu berhasil dienkripsi di cipher/files/decrypted.{fileName.split('.')[-1]}")
+                        msg.setWindowTitle("Enkripsi Berhasil")
+                        msg.exec_()
+                    except Exception as e:
+                        print(e)
+            else:
+                msg = QMessageBox()
+                msg.setText("Cipher key tidak boleh kosong!")
+                msg.setWindowTitle("Dekripsi gagal")
+                msg.exec_()
+
         self.layout = qtw.QGridLayout(self)
         self.setLayout(self.layout)
 
@@ -58,6 +99,19 @@ class extendedVigenereWidget(qtw.QWidget):
 
         self.layout.addWidget(ctextLabel,0,2)
         self.layout.addWidget(ctextBox,1,2)
+
+        buttonFileLayout = qtw.QGroupBox()
+        buttonFileLayout.setLayout(qtw.QHBoxLayout())
+
+        encryptFileButton = qtw.QPushButton("Encrypt File Binary")
+        encryptFileButton.clicked.connect(lambda: encryptBinaryFile())
+        buttonFileLayout.layout().addWidget(encryptFileButton,0,Qt.AlignHCenter)
+
+        decryptFileButton = qtw.QPushButton("Decrypt File Binary")  
+        decryptFileButton.clicked.connect(lambda: decryptBinaryFile()) 
+        buttonFileLayout.layout().addWidget(decryptFileButton,1,Qt.AlignHCenter)
+
+        self.layout.addWidget(buttonFileLayout,2,0)
 
         buttonLayout = qtw.QGroupBox()
         buttonLayout.setLayout(qtw.QHBoxLayout())

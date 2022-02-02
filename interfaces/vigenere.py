@@ -1,3 +1,4 @@
+from fileinput import filename
 import PyQt5.QtWidgets as qtw
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import Qt
@@ -21,6 +22,32 @@ class vigenereWidget(qtw.QWidget):
 
         def decrypt():
             ptextBox.setText(vig.splitStringTo5Chars(vig.vigenereDecrypt(ctextBox.text(),ktextBox.text())))
+
+        def encryptTextFile():
+            if (len(ktextBox.text()) != 0):
+                options = qtw.QFileDialog.Options()
+                options |= qtw.QFileDialog.DontUseNativeDialog
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
+                if fileName:
+                    ctextBox.setText(vig.splitStringTo5Chars(vig.encryptTextFile(str(fileName),ktextBox.text())))
+            else:
+                msg = QMessageBox()
+                msg.setText("Cipher key tidak boleh kosong!")
+                msg.setWindowTitle("Enkripsi gagal")
+                msg.exec_()
+
+        def decryptTextFile():
+            if (len(ktextBox.text()) != 0):
+                options = qtw.QFileDialog.Options()
+                options |= qtw.QFileDialog.DontUseNativeDialog
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
+                if fileName:
+                    ptextBox.setText(vig.splitStringTo5Chars(vig.decryptTextFile(str(fileName),ktextBox.text())))
+            else:
+                msg = QMessageBox()
+                msg.setText("Cipher key tidak boleh kosong!")
+                msg.setWindowTitle("Dekripsi gagal")
+                msg.exec_()
 
         def save():
             vig.saveCipherToTextfile(ctextBox.text(),saveLine.text())
@@ -51,9 +78,22 @@ class vigenereWidget(qtw.QWidget):
         self.layout.addWidget(ctextLabel,0,2)
         self.layout.addWidget(ctextBox,1,2)
 
+        buttonFileLayout = qtw.QGroupBox()
+        buttonFileLayout.setLayout(qtw.QHBoxLayout())
+
+        encryptFileButton = qtw.QPushButton("Encrypt File")
+        encryptFileButton.clicked.connect(lambda: encryptTextFile())
+        buttonFileLayout.layout().addWidget(encryptFileButton,0,Qt.AlignHCenter)
+
+        decryptFileButton = qtw.QPushButton("Decrypt File")  
+        decryptFileButton.clicked.connect(lambda: decryptTextFile()) 
+        buttonFileLayout.layout().addWidget(decryptFileButton,1,Qt.AlignHCenter)
+
+        self.layout.addWidget(buttonFileLayout,2,0)
+
         buttonLayout = qtw.QGroupBox()
         buttonLayout.setLayout(qtw.QHBoxLayout())
-    
+
         encryptButton = qtw.QPushButton("Encrypt")
         encryptButton.clicked.connect(lambda: encrypt())
         buttonLayout.layout().addWidget(encryptButton,0,Qt.AlignHCenter)

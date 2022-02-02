@@ -96,7 +96,7 @@ def mod5(x: int):
     return x%5
 
 
-def encrypt(plainText: str, keySquare):
+def encrypt(plainText, keySquare):
     '''
     receive an acceptable plainText, return encrypted text
     '''
@@ -152,7 +152,7 @@ def textEncrypt(plainText: str, plainKey: str):
     print(encrypt(convertedPlainText, keySquare))
 
 
-def decrypt(cipherText: str, keySquare):
+def decrypt(cipherText, keySquare):
     '''
     receive an acceptable cipherText, return decrypted text
     '''

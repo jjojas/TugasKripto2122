@@ -215,7 +215,7 @@ def textDecrypt(cipherText: str, plainKey: str):
 
 def fileEncrypt(fileName, plainKey: str):
     '''
-    Given a filename (str), it encrypt the file and write a new encrypted file
+    Given a fileName (str), it encrypt the file and write a new encrypted file
     '''
     # generate keySquare
     keyString = removeUnrecognizedChar(plainKey.lower())
@@ -240,7 +240,7 @@ def fileEncrypt(fileName, plainKey: str):
 
 def fileDecrypt(fileName, plainKey: str):
     '''
-    Given a filename (str), it decrypt the file and write a new decrypted file
+    Given a fileName (str), it decrypt the file and write a new decrypted file
     '''
     #generate keySquare
     keyString = removeUnrecognizedChar(plainKey.lower())

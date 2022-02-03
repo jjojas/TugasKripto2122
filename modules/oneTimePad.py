@@ -65,6 +65,27 @@ def textEncrypt(plainText: str) -> str:
 
     return cipherText
 
+def fileEncrypt(fileName):
+    '''
+    Given a fileName (str), it decrypt the file and write a new decrypted file
+    '''
+    with open(fileName, "rb") as file:
+        # read all file data
+        fileData = file.read()
+
+    # convert fileData
+    fileData = cleanText(fileData.decode('UTF-8'))
+
+    # generate key
+    key = generateKey(len(fileData))
+
+    # encrypt data
+    encryptedData = encrypt(fileData, key)
+    
+    # write the decrypted file
+    with open("cipher/text/encrypted_" + fileName.split("/")[-1], "wb") as file:
+        file.write(bytes(encryptedData, 'UTF-8'))
+
 
 #Decrypt
 def getKey(cipherText: str):
@@ -106,6 +127,26 @@ def textDecrypt(cipherText: str) -> str:
 
     return plainText
 
+def fileDecrypt(fileName):
+    '''
+    Given a fileName (str), it decrypt the file and write a new decrypted file
+    '''
+    with open(fileName, "rb") as file:
+        # read all file data
+        fileData = file.read()
+    
+    # convert fileData
+    fileData = cleanText(fileData.decode('UTF-8'))
+
+    # check if key for cipherText exists
+    key = getKey(fileData)
+
+    # decrypted data
+    decryptedData = decrypt(fileData, key)
+    
+    # write the decrypted file
+    with open("cipher/text/decrypted_" + fileName.split("/")[-1], "wb") as file:
+        file.write(bytes(decryptedData, 'UTF-8'))
 
 # print(encrypt("nantimalamsayatunggukamudidepanwarungkopi".upper(), "gtrskncvbrwpoatqljfmxtrpjsrzolfhtbmaedpvy".upper()))
 # print(decrypt("TTELSZCGBDOPMAMKYPLGHTDJMAUDDLSDTSGNKNDKG", "gtrskncvbrwpoatqljfmxtrpjsrzolfhtbmaedpvy".upper()))

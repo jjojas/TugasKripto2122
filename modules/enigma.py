@@ -130,3 +130,45 @@ def textEncryptAndDecypt(text, initialPosition1, initialPosition2, initialPositi
 
 	# encrypt or decrypt
 	return encryptAndDecrypt(text)
+
+def fileEncrypt(fileName, initialPosition1, initialPosition2, initialPosition3):
+	'''
+	Encrypt file input with Enigma Cipher
+	'''
+	# set Enigma's rotor initial position
+	setEnigma(initialPosition1, initialPosition2, initialPosition3)
+
+	with open(fileName, "rb") as file:
+		# read all file data
+		fileData = file.read()
+
+	# convert fileData
+	fileData = cleanText(fileData.decode('UTF-8'))
+
+	# encrypt data
+	encryptedData = encryptAndDecrypt(fileData)
+
+	# write the decrypted file
+	with open("cipher/text/encrypted_" + fileName.split("/")[-1], "wb") as file:
+		file.write(bytes(encryptedData, 'UTF-8'))
+
+def fileDecrypt(fileName, initialPosition1, initialPosition2, initialPosition3):
+	'''
+	Decrypt file input with Enigma Cipher
+	'''
+	# set Enigma's rotor initial position
+	setEnigma(initialPosition1, initialPosition2, initialPosition3)
+
+	with open(fileName, "rb") as file:
+		# read all file data
+		fileData = file.read()
+
+	# convert fileData
+	fileData = cleanText(fileData.decode('UTF-8'))
+
+	# decrypted data
+	decryptedData = encryptAndDecrypt(fileData)
+
+	# write the decrypted file
+	with open("cipher/text/decrypted_" + fileName.split("/")[-1], "wb") as file:
+		file.write(bytes(decryptedData, 'UTF-8'))

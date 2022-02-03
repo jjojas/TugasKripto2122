@@ -5,6 +5,7 @@ import interfaces.vigenere as v
 import interfaces.extendedVigenere as ev
 import interfaces.fairplayCipher as p
 import interfaces.oneTimePad as otp
+import interfaces.enigma as e
 
 
 class mainWidget(qtw.QWidget):
@@ -22,7 +23,7 @@ class mainWidget(qtw.QWidget):
         self.tabs.addTab(v.vigenereWidget(self),"Vigenere")
         self.tabs.addTab(ev.extendedVigenereWidget(self),"Extended Vigenere")
         self.tabs.addTab(p.playfairWidget(self),"Playfair")
-        self.tabs.addTab(qtw.QWidget(),"Enigma")
+        self.tabs.addTab(e.enigmaWidget(self),"Enigma")
         self.tabs.addTab(otp.otpWidget(self),"One-time-pad")
         self.layout.addWidget(self.tabs)
         self.setLayout(self.layout)    

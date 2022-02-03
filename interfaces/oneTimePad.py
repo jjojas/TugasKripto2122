@@ -20,8 +20,15 @@ class otpWidget(qtw.QWidget):
             ctextBox.setText(v.splitStringTo5Chars(cipherCache))
 
         def decrypt():
-            cipherCache = otp.textDecrypt(ctextBox.text())
-            ptextBox.setText(v.splitStringTo5Chars(cipherCache))
+            try:
+                cipherCache = otp.textDecrypt(ctextBox.text())
+                ptextBox.setText(v.splitStringTo5Chars(cipherCache))
+            except Exception as e:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText(str(e))
+                msg.setWindowTitle("Dekripsi gagal")
+                msg.exec_()
 
         def save():
             v.saveCipherToTextfile(ctextBox.text(),saveLine.text())

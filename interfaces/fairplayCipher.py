@@ -1,3 +1,4 @@
+from msilib.schema import Error
 import PyQt5.QtWidgets as qtw
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import Qt
@@ -16,7 +17,14 @@ class playfairWidget(qtw.QWidget):
             ctextBox.setText(vig.splitStringTo5Chars(f.textEncrypt(ptextBox.text(),ktextBox.text())).upper())
 
         def decrypt():
-            ptextBox.setText(vig.splitStringTo5Chars(f.textDecrypt(ctextBox.text(),ktextBox.text())).upper())
+            try:
+                ptextBox.setText(vig.splitStringTo5Chars(f.textDecrypt(ctextBox.text(),ktextBox.text())).upper())
+            except Exception as e:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Critical)
+                msg.setText(str(e))
+                msg.setWindowTitle("Dekripsi gagal")
+                msg.exec_()
 
         def encryptTextFile():
             if (len(ktextBox.text()) != 0):

@@ -42,7 +42,7 @@ class extendedVigenereWidget(qtw.QWidget):
             if (len(ktextBox.text()) != 0):
                 options = qtw.QFileDialog.Options()
                 options |= qtw.QFileDialog.DontUseNativeDialog
-                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
                 if fileName:
                     try:
                         evig.encryptBinaryFile(fileName,ktextBox.text())
@@ -62,7 +62,7 @@ class extendedVigenereWidget(qtw.QWidget):
             if (len(ktextBox.text()) != 0):
                 options = qtw.QFileDialog.Options()
                 options |= qtw.QFileDialog.DontUseNativeDialog
-                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
                 if fileName:
                     try:
                         evig.decryptBinaryFile(fileName,ktextBox.text())

@@ -1,4 +1,6 @@
-#One-time pad (26 huruf alfabet)
+# One-time pad Module (26 alphabet)
+# Module Author: Bonaventura Bagas S
+# 18219017
 
 def cleanText(text: str) -> str:
     cleanedText = ""
@@ -111,4 +113,4 @@ def textDecrypt(cipherText: str) -> str:
 # print(textDecrypt("WFOEIWWUETHFGNDYWNLHCJZPVLRJLEBMPNYDKXQCH"))
 # print(textDecrypt("ZXWAQTBBUPAAOIPBRUVQBUGLEHEQSVAXIHQRVVNBF"))
 # print(textEncrypt("ada cerita"))
-print(textDecrypt("CEVAWYICS"))
+# print(textDecrypt("CEVAWYICS"))

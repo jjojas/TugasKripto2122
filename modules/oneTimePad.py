@@ -111,4 +111,4 @@ def textDecrypt(cipherText: str) -> str:
 # print(textDecrypt("WFOEIWWUETHFGNDYWNLHCJZPVLRJLEBMPNYDKXQCH"))
 # print(textDecrypt("ZXWAQTBBUPAAOIPBRUVQBUGLEHEQSVAXIHQRVVNBF"))
 # print(textEncrypt("ada cerita"))
-print(textDecrypt("CEVAWYICS"))
+# print(textDecrypt("CEVAWYICS"))

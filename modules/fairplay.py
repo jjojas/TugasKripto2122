@@ -1,3 +1,7 @@
+# Playfair Cipher Module (26 alphabet)
+# Module Author: Bonaventura Bagas S
+# 18219017
+
 import string
 
 AlphabetList = list(string.ascii_lowercase)

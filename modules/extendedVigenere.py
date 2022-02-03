@@ -29,17 +29,17 @@ def extendedVigenereDecrypt(plaintext,key):
     INPUT: 256 ASCII Vigenere ciphertext and vigenere key
     OUTPUT: plaintext
     '''
-    cipher = ""
+    plain = ""
     for i in range(len(plaintext)):
         if ord(plaintext[i]) >=0 and ord(plaintext[i]) <=255:
             inChar = ord(plaintext[i])
             inKey = ord(key[i % len(key)])
             newChar = (inChar - inKey) % 256
-            cipher +=chr(newChar)
+            plain +=chr(newChar)
             # print(f"{repr(plaintext[i])} || {inChar} || {newChar} || {(chr(newChar))}")
         else:
-            cipher += plaintext[i]
-    return cipher
+            plain += plaintext[i]
+    return plain
 
 def encryptBinaryFile(filedir,key):
     '''

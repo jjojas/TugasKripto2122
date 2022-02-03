@@ -3,7 +3,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMessageBox
 
-import modules.vigenere as vig
+import modules.vigenere as v
 import modules.extendedVigenere as evig
 
 cipherCache = ""
@@ -31,7 +31,7 @@ class extendedVigenereWidget(qtw.QWidget):
             ptextBox.setText(rep[:-1][1:])
 
         def save():
-            evig.saveCipherToTextfile(ctextBox.text(),saveLine.text())
+            v.saveCipherToTextfile(ctextBox.text(),saveLine.text())
             msg = QMessageBox()
             msg.setText("File tersimpan!")
             msg.setInformativeText(f'Cipherteks berhasil disimpan pada direktori cipher/text/{saveLine.text()}.txt')
@@ -42,7 +42,7 @@ class extendedVigenereWidget(qtw.QWidget):
             if (len(ktextBox.text()) != 0):
                 options = qtw.QFileDialog.Options()
                 options |= qtw.QFileDialog.DontUseNativeDialog
-                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
                 if fileName:
                     try:
                         evig.encryptBinaryFile(fileName,ktextBox.text())
@@ -62,7 +62,7 @@ class extendedVigenereWidget(qtw.QWidget):
             if (len(ktextBox.text()) != 0):
                 options = qtw.QFileDialog.Options()
                 options |= qtw.QFileDialog.DontUseNativeDialog
-                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
+                fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
                 if fileName:
                     try:
                         evig.decryptBinaryFile(fileName,ktextBox.text())

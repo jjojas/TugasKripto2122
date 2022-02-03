@@ -4,24 +4,23 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMessageBox
 
 import modules.vigenere as v
-import modules.extendedVigenere as evig
-import modules.oneTimePad as otp
+import modules.enigma as en
 
 cipherCache = ""
 
-class otpWidget(qtw.QWidget):
+class enigmaWidget(qtw.QWidget):
     def __init__(self, parent):
         super(qtw.QWidget, self).__init__(parent)   
         self.initUI()
     
     def initUI(self):
         def encrypt():
-            cipherCache = otp.textEncrypt(ptextBox.text())
-            ctextBox.setText(v.splitStringTo5Chars(cipherCache))
+            cipherCache = en.textEncryptAndDecypt(ptextBox.text(),lrotorLabel.text(),mrotorLabel.text(),rrotorLabel.text())
+            ctextBox.setText(v.splitStringTo5Chars(cipherCache.upper()))
 
         def decrypt():
-            cipherCache = otp.textDecrypt(ctextBox.text())
-            ptextBox.setText(v.splitStringTo5Chars(cipherCache))
+            decipherCache = en.textEncryptAndDecypt(ctextBox.text(),lrotorLabel.text(),mrotorLabel.text(),rrotorLabel.text())
+            ptextBox.setText(v.splitStringTo5Chars(decipherCache.upper()))
 
         def save():
             v.saveCipherToTextfile(ctextBox.text(),saveLine.text())
@@ -34,10 +33,10 @@ class otpWidget(qtw.QWidget):
         def encryptBinaryFile():
             options = qtw.QFileDialog.Options()
             options |= qtw.QFileDialog.DontUseNativeDialog
-            fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
+            fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
             if fileName:
                 try:
-                    otp.fileEncrypt(fileName)
+                    en.fileEncrypt(fileName,lrotorLabel.text(),mrotorLabel.text(),rrotorLabel.text())
                     msg = QMessageBox()
                     msg.setText(f"Filemu berhasil dienkripsi di cipher/files/encrypted_{fileName.split('/')[-1]}")
                     msg.setWindowTitle("Enkripsi Berhasil")
@@ -48,16 +47,25 @@ class otpWidget(qtw.QWidget):
         def decryptBinaryFile():
             options = qtw.QFileDialog.Options()
             options |= qtw.QFileDialog.DontUseNativeDialog
-            fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*)", options=options)
+            fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
             if fileName:
                 try:
-                    otp.fileDecrypt(fileName)
+                    en.fileDecrypt(fileName,lrotorLabel.text(),mrotorLabel.text(),rrotorLabel.text())
                     msg = QMessageBox()
                     msg.setText(f"Filemu berhasil dienkripsi di cipher/files/decrypted_{fileName.split('/')[-1]}")
                     msg.setWindowTitle("Enkripsi Berhasil")
                     msg.exec_()
                 except Exception as e:
                     print(e)
+
+        def valuechangel():
+            lrotorLabel.setText(chr(64+(lrotorSpinbox.value())))
+
+        def valuechangem():
+            mrotorLabel.setText(chr(64+(mrotorSpinbox.value())))
+            
+        def valuechanger():
+            rrotorLabel.setText(chr(64+(rrotorSpinbox.value())))
 
         self.layout = qtw.QGridLayout(self)
         self.setLayout(self.layout)
@@ -67,6 +75,45 @@ class otpWidget(qtw.QWidget):
 
         self.layout.addWidget(ptextLabel,0,0)
         self.layout.addWidget(ptextBox,1,0)
+
+        # ktextLabel = qtw.QLabel("Key:", self)
+        # ktextBox = qtw.QLineEdit(self)
+
+        # self.layout.addWidget(ktextLabel,0,1)
+        # self.layout.addWidget(ktextBox,1,1)
+
+        rlayout = qtw.QGroupBox(self)
+        rlayout.setLayout(qtw.QGridLayout())
+
+        rtextLabel = qtw.QLabel("Initial Rotor", self)
+        self.layout.addWidget(rtextLabel,0,1)
+        # rlayout.layout().addWidget(rtextLabel,0,1)
+
+        lrotorLabel = qtw.QLabel("A",self)
+        lrotorSpinbox = qtw.QSpinBox(self)
+        lrotorSpinbox.setRange(1,26)
+        lrotorSpinbox.valueChanged.connect(lambda: valuechangel())
+
+        rlayout.layout().addWidget(lrotorLabel,1,1)
+        rlayout.layout().addWidget(lrotorSpinbox,2,1)
+
+        mrotorLabel = qtw.QLabel("A",self)
+        mrotorSpinbox = qtw.QSpinBox(self)
+        mrotorSpinbox.setRange(1,26)
+        mrotorSpinbox.valueChanged.connect(lambda: valuechangem())
+
+        rlayout.layout().addWidget(mrotorLabel,1,2)
+        rlayout.layout().addWidget(mrotorSpinbox,2,2)
+
+        rrotorLabel = qtw.QLabel("A",self)
+        rrotorSpinbox = qtw.QSpinBox(self)
+        rrotorSpinbox.setRange(1,26)
+        rrotorSpinbox.valueChanged.connect(lambda: valuechanger())
+
+        rlayout.layout().addWidget(rrotorLabel,1,3)
+        rlayout.layout().addWidget(rrotorSpinbox,2,3)
+
+        self.layout.addWidget(rlayout,1,1)
 
         ctextLabel = qtw.QLabel("Ciphertext:", self)
         ctextBox = qtw.QLineEdit(self)
@@ -112,3 +159,4 @@ class otpWidget(qtw.QWidget):
         saveBoxLayout.layout().addWidget(saveButton,2,Qt.AlignHCenter)
 
         self.layout.addWidget(saveBoxLayout,2,2)
+    

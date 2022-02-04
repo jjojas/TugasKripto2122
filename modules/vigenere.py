@@ -74,10 +74,12 @@ def encryptTextFile(filedir,key):
     OUTPUT: ciphered text
     '''
     f = open(filedir,"r+")
-    s = f.read()
+    c = f.read()
     f.close()
 
-    return splitStringTo5Chars(vigenereEncrypt(s,key)) 
+    s = open(f"cipher/text/encrypted_{filedir.split('/')[-1]}","w+")
+    s.write(vigenereEncrypt(c,key))
+    s.close()
 
 def decryptTextFile(filedir,key):
     '''
@@ -86,9 +88,12 @@ def decryptTextFile(filedir,key):
     OUTPUT: plaintext files
     '''
     f = open(filedir,"r+")
-    s = f.read()
+    c = f.read()
     f.close()
-    return splitStringTo5Chars(vigenereDecrypt(s,key))
+
+    s = open(f"cipher/text/decrypted_{filedir.split('/')[-1]}","w+")
+    s.write(vigenereDecrypt(c,key))
+    s.close()
 
 def saveCipherToTextfile(content,filename):
     '''

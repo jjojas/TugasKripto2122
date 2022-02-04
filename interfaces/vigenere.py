@@ -28,7 +28,11 @@ class vigenereWidget(qtw.QWidget):
                 options |= qtw.QFileDialog.DontUseNativeDialog
                 fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
                 if fileName:
-                    ctextBox.setText(vig.splitStringTo5Chars(vig.encryptTextFile(str(fileName),ktextBox.text())))
+                    ctextBox.setText((vig.encryptTextFile(str(fileName),ktextBox.text())))
+                    msg = QMessageBox()
+                    msg.setWindowTitle("Enkripsi berhasil!")
+                    msg.setText(f'File anda dapat diakses di "cipher/text/encrypted_{fileName.split("/")[-1]}"')
+                    msg.exec_()
             else:
                 msg = QMessageBox()
                 msg.setText("Cipher key tidak boleh kosong!")
@@ -41,7 +45,11 @@ class vigenereWidget(qtw.QWidget):
                 options |= qtw.QFileDialog.DontUseNativeDialog
                 fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","Text Files (*.txt)", options=options)
                 if fileName:
-                    ptextBox.setText(vig.splitStringTo5Chars(vig.decryptTextFile(str(fileName),ktextBox.text())))
+                    ptextBox.setText((vig.decryptTextFile(str(fileName),ktextBox.text())))
+                    msg = QMessageBox()
+                    msg.setWindowTitle("Dekripsi berhasil!")
+                    msg.setText(f'File anda dapat diakses di "cipher/text/decrypted_{fileName.split("/")[-1]}"')
+                    msg.exec_()
             else:
                 msg = QMessageBox()
                 msg.setText("Cipher key tidak boleh kosong!")

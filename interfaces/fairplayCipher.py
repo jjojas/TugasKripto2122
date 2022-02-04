@@ -14,7 +14,10 @@ class playfairWidget(qtw.QWidget):
     
     def initUI(self):
         def encrypt():
-            ctextBox.setText(vig.splitStringTo5Chars(f.textEncrypt(ptextBox.text(),ktextBox.text())).upper())
+            cipherText = f.textEncrypt(ptextBox.text(),ktextBox.text()).upper()
+            if LetterRButton.isChecked() == True:
+                cipherText = vig.splitStringTo5Chars(cipherText)
+            ctextBox.setText(cipherText)
 
         def decrypt():
             try:
@@ -68,6 +71,13 @@ class playfairWidget(qtw.QWidget):
             msg.setWindowTitle("Simpan berhasil")
             msg.exec_()
 
+        def cipherTextState(b):
+            if b.isChecked() == True:
+                if b.text() == "tanpa spasi":
+                    ctextBox.setText(ctextBox.text().replace(" ",""))
+                elif b.text() == "per 5-huruf":
+                    ctextBox.setText(vig.splitStringTo5Chars(ctextBox.text()))
+
         self.layout = qtw.QGridLayout(self)
         self.setLayout(self.layout)
 
@@ -88,6 +98,15 @@ class playfairWidget(qtw.QWidget):
 
         self.layout.addWidget(ctextLabel,0,2)
         self.layout.addWidget(ctextBox,1,2)
+
+        noSpaceRButton = qtw.QRadioButton("tanpa spasi")
+        noSpaceRButton.toggled.connect(lambda:cipherTextState(noSpaceRButton))
+        self.layout.addWidget(noSpaceRButton,0,3)
+
+        LetterRButton = qtw.QRadioButton("per 5-huruf")
+        LetterRButton.setChecked(True)
+        LetterRButton.toggled.connect(lambda:cipherTextState(LetterRButton))
+        self.layout.addWidget(LetterRButton,1,3)
 
         buttonFileLayout = qtw.QGroupBox()
         buttonFileLayout.setLayout(qtw.QHBoxLayout())
@@ -126,4 +145,4 @@ class playfairWidget(qtw.QWidget):
         saveBoxLayout.layout().addWidget(saveLine,1,Qt.AlignHCenter)
         saveBoxLayout.layout().addWidget(saveButton,2,Qt.AlignHCenter)
 
-        self.layout.addWidget(saveBoxLayout,2,2)
+        self.layout.addWidget(saveBoxLayout,2,2,1,2)

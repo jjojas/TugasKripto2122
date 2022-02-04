@@ -17,7 +17,9 @@ class otpWidget(qtw.QWidget):
     def initUI(self):
         def encrypt():
             cipherCache = otp.textEncrypt(ptextBox.text())
-            ctextBox.setText(v.splitStringTo5Chars(cipherCache))
+            if LetterRButton.isChecked() == True:
+                cipherCache = v.splitStringTo5Chars(cipherCache)
+            ctextBox.setText(cipherCache)
 
         def decrypt():
             try:
@@ -65,6 +67,18 @@ class otpWidget(qtw.QWidget):
                     msg.exec_()
                 except Exception as e:
                     print(e)
+                    msg = QMessageBox()
+                    msg.setIcon(QMessageBox.Critical)
+                    msg.setText(str(e))
+                    msg.setWindowTitle("Dekripsi gagal")
+                    msg.exec_()
+
+        def cipherTextState(b):
+            if b.isChecked() == True:
+                if b.text() == "tanpa spasi":
+                    ctextBox.setText(ctextBox.text().replace(" ",""))
+                elif b.text() == "per 5-huruf":
+                    ctextBox.setText(v.splitStringTo5Chars(ctextBox.text()))
 
         self.layout = qtw.QGridLayout(self)
         self.setLayout(self.layout)
@@ -80,6 +94,15 @@ class otpWidget(qtw.QWidget):
 
         self.layout.addWidget(ctextLabel,0,2)
         self.layout.addWidget(ctextBox,1,2)
+
+        noSpaceRButton = qtw.QRadioButton("tanpa spasi")
+        noSpaceRButton.toggled.connect(lambda:cipherTextState(noSpaceRButton))
+        self.layout.addWidget(noSpaceRButton,0,3)
+
+        LetterRButton = qtw.QRadioButton("per 5-huruf")
+        LetterRButton.setChecked(True)
+        LetterRButton.toggled.connect(lambda:cipherTextState(LetterRButton))
+        self.layout.addWidget(LetterRButton,1,3)
 
         buttonFileLayout = qtw.QGroupBox()
         buttonFileLayout.setLayout(qtw.QHBoxLayout())
@@ -118,4 +141,4 @@ class otpWidget(qtw.QWidget):
         saveBoxLayout.layout().addWidget(saveLine,1,Qt.AlignHCenter)
         saveBoxLayout.layout().addWidget(saveButton,2,Qt.AlignHCenter)
 
-        self.layout.addWidget(saveBoxLayout,2,2)
+        self.layout.addWidget(saveBoxLayout,2,2,1,2)

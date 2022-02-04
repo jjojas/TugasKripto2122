@@ -81,6 +81,9 @@ def fileEncrypt(fileName):
 
     # encrypt data
     encryptedData = encrypt(fileData, key)
+
+    # save cipher and used Key
+    saveChiperandUsedKey(encryptedData, key)
     
     # write the decrypted file
     with open("cipher/text/encrypted_" + fileName.split("/")[-1], "wb") as file:

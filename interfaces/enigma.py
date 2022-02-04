@@ -16,7 +16,10 @@ class enigmaWidget(qtw.QWidget):
     def initUI(self):
         def encrypt():
             cipherCache = en.textEncryptAndDecypt(ptextBox.text(),lrotorLabel.text(),mrotorLabel.text(),rrotorLabel.text())
-            ctextBox.setText(v.splitStringTo5Chars(cipherCache.upper()))
+            if LetterRButton.isChecked() == True:
+                cipherCache = v.splitStringTo5Chars(cipherCache)
+            ctextBox.setText(cipherCache.upper())
+            
 
         def decrypt():
             decipherCache = en.textEncryptAndDecypt(ctextBox.text(),lrotorLabel.text(),mrotorLabel.text(),rrotorLabel.text())
@@ -66,6 +69,13 @@ class enigmaWidget(qtw.QWidget):
             
         def valuechanger():
             rrotorLabel.setText(chr(64+(rrotorSpinbox.value())))
+
+        def cipherTextState(b):
+            if b.isChecked() == True:
+                if b.text() == "tanpa spasi":
+                    ctextBox.setText(ctextBox.text().replace(" ",""))
+                elif b.text() == "per 5-huruf":
+                    ctextBox.setText(v.splitStringTo5Chars(ctextBox.text()))
 
         self.layout = qtw.QGridLayout(self)
         self.setLayout(self.layout)
@@ -121,6 +131,15 @@ class enigmaWidget(qtw.QWidget):
         self.layout.addWidget(ctextLabel,0,2)
         self.layout.addWidget(ctextBox,1,2)
 
+        noSpaceRButton = qtw.QRadioButton("tanpa spasi")
+        noSpaceRButton.toggled.connect(lambda:cipherTextState(noSpaceRButton))
+        self.layout.addWidget(noSpaceRButton,0,3)
+
+        LetterRButton = qtw.QRadioButton("per 5-huruf")
+        LetterRButton.setChecked(True)
+        LetterRButton.toggled.connect(lambda:cipherTextState(LetterRButton))
+        self.layout.addWidget(LetterRButton,1,3)
+
         buttonFileLayout = qtw.QGroupBox()
         buttonFileLayout.setLayout(qtw.QHBoxLayout())
 
@@ -158,5 +177,5 @@ class enigmaWidget(qtw.QWidget):
         saveBoxLayout.layout().addWidget(saveLine,1,Qt.AlignHCenter)
         saveBoxLayout.layout().addWidget(saveButton,2,Qt.AlignHCenter)
 
-        self.layout.addWidget(saveBoxLayout,2,2)
+        self.layout.addWidget(saveBoxLayout,2,2,1,2)
     

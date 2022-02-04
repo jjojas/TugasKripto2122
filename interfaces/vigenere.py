@@ -12,7 +12,10 @@ class vigenereWidget(qtw.QWidget):
     
     def initUI(self):
         def encrypt():
-            ctextBox.setText(vig.splitStringTo5Chars(vig.vigenereEncrypt(ptextBox.text(),ktextBox.text())))
+            cipherCache = vig.vigenereEncrypt(ptextBox.text(),ktextBox.text())
+            if LetterRButton.isChecked() == True:
+                cipherCache = vig.splitStringTo5Chars(cipherCache)
+            ctextBox.setText(cipherCache)
             # options = qtw.QFileDialog.Options()
             # options |= qtw.QFileDialog.DontUseNativeDialog
             # fileName, _ = qtw.QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;Python Files (*.py)", options=options)
@@ -63,6 +66,13 @@ class vigenereWidget(qtw.QWidget):
             msg.setInformativeText(f'Cipherteks berhasil disimpan pada direktori cipher/text/{saveLine.text()}.txt')
             msg.setWindowTitle("Simpan berhasil")
             msg.exec_()
+        
+        def cipherTextState(b):
+            if b.isChecked() == True:
+                if b.text() == "tanpa spasi":
+                    ctextBox.setText(ctextBox.text().replace(" ",""))
+                elif b.text() == "per 5-huruf":
+                    ctextBox.setText(vig.splitStringTo5Chars(ctextBox.text()))
 
         self.layout = qtw.QGridLayout(self)
         self.setLayout(self.layout)
@@ -84,6 +94,15 @@ class vigenereWidget(qtw.QWidget):
 
         self.layout.addWidget(ctextLabel,0,2)
         self.layout.addWidget(ctextBox,1,2)
+
+        noSpaceRButton = qtw.QRadioButton("tanpa spasi")
+        noSpaceRButton.toggled.connect(lambda:cipherTextState(noSpaceRButton))
+        self.layout.addWidget(noSpaceRButton,0,3)
+
+        LetterRButton = qtw.QRadioButton("per 5-huruf")
+        LetterRButton.setChecked(True)
+        LetterRButton.toggled.connect(lambda:cipherTextState(LetterRButton))
+        self.layout.addWidget(LetterRButton,1,3)
 
         buttonFileLayout = qtw.QGroupBox()
         buttonFileLayout.setLayout(qtw.QHBoxLayout())
@@ -122,7 +141,7 @@ class vigenereWidget(qtw.QWidget):
         saveBoxLayout.layout().addWidget(saveLine,1,Qt.AlignHCenter)
         saveBoxLayout.layout().addWidget(saveButton,2,Qt.AlignHCenter)
 
-        self.layout.addWidget(saveBoxLayout,2,2)
+        self.layout.addWidget(saveBoxLayout,2,2,1,2)
 
 
 
